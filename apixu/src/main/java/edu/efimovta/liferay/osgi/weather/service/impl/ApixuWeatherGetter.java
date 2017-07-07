@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.osgi.service.component.annotations.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import static org.apache.http.HttpHeaders.USER_AGENT;
 /**
  * Created by eta on 7/5/2017.
  */
-
+@Component(immediate = true)
 public class ApixuWeatherGetter implements WeatherGetter {
     private final String source = "apixu.com - json";
     private final String sourceUrl = "http://api.apixu.com/v1/forecast.json";
@@ -70,6 +71,8 @@ public class ApixuWeatherGetter implements WeatherGetter {
             double mintemp_c = day.getDouble("mintemp_c");
             double maxtemp_c = day.getDouble("maxtemp_c");
 
+
+            System.out.println("WEATHER GETTED");
             return new WeatherImpl(source, city, country, lat, lon, conditionText, avgtemp_c, mintemp_c, maxtemp_c);
 
         } catch (JSONException | IOException e) {
